@@ -362,6 +362,204 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiExerciseExercise extends Schema.CollectionType {
+  collectionName: 'exercises';
+  info: {
+    singularName: 'exercise';
+    pluralName: 'exercises';
+    displayName: 'Exercise';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 2;
+        maxLength: 50;
+      }>;
+    weight_entries: Attribute.Relation<
+      'api::exercise.exercise',
+      'oneToMany',
+      'api::weight-entry.weight-entry'
+    >;
+    description: Attribute.RichText;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::exercise.exercise',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::exercise.exercise',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiMuscleGroupMuscleGroup extends Schema.CollectionType {
+  collectionName: 'muscle_groups';
+  info: {
+    singularName: 'muscle-group';
+    pluralName: 'muscle-groups';
+    displayName: 'MuscleGroup ';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 2;
+        maxLength: 50;
+      }>;
+    description: Attribute.Blocks;
+    weight_entries: Attribute.Relation<
+      'api::muscle-group.muscle-group',
+      'oneToMany',
+      'api::weight-entry.weight-entry'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::muscle-group.muscle-group',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::muscle-group.muscle-group',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiWeightEntryWeightEntry extends Schema.CollectionType {
+  collectionName: 'weight_entries';
+  info: {
+    singularName: 'weight-entry';
+    pluralName: 'weight-entries';
+    displayName: 'WeightEntry';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    weight: Attribute.Float &
+      Attribute.Required &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+          max: 300;
+        },
+        number
+      >;
+    sets: Attribute.Integer &
+      Attribute.Required &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+          max: 25;
+        },
+        number
+      >;
+    reps: Attribute.Integer &
+      Attribute.Required &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+          max: 100;
+        },
+        number
+      >;
+    exercise: Attribute.Relation<
+      'api::weight-entry.weight-entry',
+      'manyToOne',
+      'api::exercise.exercise'
+    >;
+    workout_session: Attribute.Relation<
+      'api::weight-entry.weight-entry',
+      'manyToOne',
+      'api::workout-session.workout-session'
+    >;
+    muscle_group: Attribute.Relation<
+      'api::weight-entry.weight-entry',
+      'manyToOne',
+      'api::muscle-group.muscle-group'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::weight-entry.weight-entry',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::weight-entry.weight-entry',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiWorkoutSessionWorkoutSession extends Schema.CollectionType {
+  collectionName: 'workout_sessions';
+  info: {
+    singularName: 'workout-session';
+    pluralName: 'workout-sessions';
+    displayName: 'WorkoutSession';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    date: Attribute.Date & Attribute.Required;
+    users_permissions_user: Attribute.Relation<
+      'api::workout-session.workout-session',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    weight_entries: Attribute.Relation<
+      'api::workout-session.workout-session',
+      'oneToMany',
+      'api::weight-entry.weight-entry'
+    >;
+    description: Attribute.RichText;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::workout-session.workout-session',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::workout-session.workout-session',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -793,204 +991,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface ApiExerciseExercise extends Schema.CollectionType {
-  collectionName: 'exercises';
-  info: {
-    singularName: 'exercise';
-    pluralName: 'exercises';
-    displayName: 'Exercise';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    name: Attribute.String &
-      Attribute.Required &
-      Attribute.SetMinMaxLength<{
-        minLength: 2;
-        maxLength: 50;
-      }>;
-    weight_entries: Attribute.Relation<
-      'api::exercise.exercise',
-      'oneToMany',
-      'api::weight-entry.weight-entry'
-    >;
-    description: Attribute.RichText;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::exercise.exercise',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::exercise.exercise',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiMuscleGroupMuscleGroup extends Schema.CollectionType {
-  collectionName: 'muscle_groups';
-  info: {
-    singularName: 'muscle-group';
-    pluralName: 'muscle-groups';
-    displayName: 'MuscleGroup ';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    name: Attribute.String &
-      Attribute.Required &
-      Attribute.SetMinMaxLength<{
-        minLength: 2;
-        maxLength: 50;
-      }>;
-    description: Attribute.Blocks;
-    weight_entries: Attribute.Relation<
-      'api::muscle-group.muscle-group',
-      'oneToMany',
-      'api::weight-entry.weight-entry'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::muscle-group.muscle-group',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::muscle-group.muscle-group',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiWeightEntryWeightEntry extends Schema.CollectionType {
-  collectionName: 'weight_entries';
-  info: {
-    singularName: 'weight-entry';
-    pluralName: 'weight-entries';
-    displayName: 'WeightEntry';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    weight: Attribute.Float &
-      Attribute.Required &
-      Attribute.SetMinMax<
-        {
-          min: 1;
-          max: 300;
-        },
-        number
-      >;
-    sets: Attribute.Integer &
-      Attribute.Required &
-      Attribute.SetMinMax<
-        {
-          min: 1;
-          max: 25;
-        },
-        number
-      >;
-    reps: Attribute.Integer &
-      Attribute.Required &
-      Attribute.SetMinMax<
-        {
-          min: 1;
-          max: 100;
-        },
-        number
-      >;
-    exercise: Attribute.Relation<
-      'api::weight-entry.weight-entry',
-      'manyToOne',
-      'api::exercise.exercise'
-    >;
-    workout_session: Attribute.Relation<
-      'api::weight-entry.weight-entry',
-      'manyToOne',
-      'api::workout-session.workout-session'
-    >;
-    muscle_group: Attribute.Relation<
-      'api::weight-entry.weight-entry',
-      'manyToOne',
-      'api::muscle-group.muscle-group'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::weight-entry.weight-entry',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::weight-entry.weight-entry',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiWorkoutSessionWorkoutSession extends Schema.CollectionType {
-  collectionName: 'workout_sessions';
-  info: {
-    singularName: 'workout-session';
-    pluralName: 'workout-sessions';
-    displayName: 'WorkoutSession';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    date: Attribute.Date & Attribute.Required;
-    users_permissions_user: Attribute.Relation<
-      'api::workout-session.workout-session',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-    weight_entries: Attribute.Relation<
-      'api::workout-session.workout-session',
-      'oneToMany',
-      'api::weight-entry.weight-entry'
-    >;
-    description: Attribute.RichText;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::workout-session.workout-session',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::workout-session.workout-session',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -1001,6 +1001,10 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::exercise.exercise': ApiExerciseExercise;
+      'api::muscle-group.muscle-group': ApiMuscleGroupMuscleGroup;
+      'api::weight-entry.weight-entry': ApiWeightEntryWeightEntry;
+      'api::workout-session.workout-session': ApiWorkoutSessionWorkoutSession;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
@@ -1009,10 +1013,6 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'api::exercise.exercise': ApiExerciseExercise;
-      'api::muscle-group.muscle-group': ApiMuscleGroupMuscleGroup;
-      'api::weight-entry.weight-entry': ApiWeightEntryWeightEntry;
-      'api::workout-session.workout-session': ApiWorkoutSessionWorkoutSession;
     }
   }
 }

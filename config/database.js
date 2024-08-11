@@ -6,6 +6,7 @@ module.exports = ({ env }) => {
   const connections = {
     mysql: {
       connection: {
+        insecureAuth: true,
         connectionString: env("DATABASE_URL"),
         host: env("DATABASE_HOST", "localhost"),
         port: env.int("DATABASE_PORT", 3306),
@@ -31,6 +32,7 @@ module.exports = ({ env }) => {
     },
     mysql2: {
       connection: {
+        insecureAuth: true,
         host: env("DATABASE_HOST", "localhost"),
         port: env.int("DATABASE_PORT", 3306),
         database: env("DATABASE_NAME", "strapi"),
