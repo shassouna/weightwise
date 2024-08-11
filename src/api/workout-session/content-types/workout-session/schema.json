@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "workout_sessions",
+  "info": {
+    "singularName": "workout-session",
+    "pluralName": "workout-sessions",
+    "displayName": "WorkoutSession",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "date": {
+      "type": "date",
+      "required": true
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "workout_sessions"
+    },
+    "weight_entries": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::weight-entry.weight-entry",
+      "mappedBy": "workout_session"
+    },
+    "description": {
+      "type": "richtext"
+    }
+  }
+}

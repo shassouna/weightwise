@@ -1,0 +1,52 @@
+{
+  "kind": "collectionType",
+  "collectionName": "weight_entries",
+  "info": {
+    "singularName": "weight-entry",
+    "pluralName": "weight-entries",
+    "displayName": "WeightEntry",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "weight": {
+      "type": "float",
+      "required": true,
+      "max": 300,
+      "min": 1
+    },
+    "sets": {
+      "type": "integer",
+      "required": true,
+      "min": 1,
+      "max": 25
+    },
+    "reps": {
+      "type": "integer",
+      "min": 1,
+      "max": 100,
+      "required": true
+    },
+    "exercise": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::exercise.exercise",
+      "inversedBy": "weight_entries"
+    },
+    "workout_session": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::workout-session.workout-session",
+      "inversedBy": "weight_entries"
+    },
+    "muscle_group": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::muscle-group.muscle-group",
+      "inversedBy": "weight_entries"
+    }
+  }
+}
