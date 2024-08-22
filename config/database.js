@@ -1,18 +1,27 @@
-// strapi-api/config/database.js
-module.exports = ({ env }) => ({
-  connection: {
-    client: "postgres",
+module.exports = ({ env }) => {
+  const isProduction = env("NODE_ENV") === "production";
+
+  return {
     connection: {
-      host: env("DATABASE_HOST", "localhost"),
-      port: env.int("DATABASE_PORT", 5432),
-      database: env("DATABASE_NAME", "bank"),
-      user: env("DATABASE_USERNAME", "postgres"),
-      password: env("DATABASE_PASSWORD", "0000"),
-      schema: env("DATABASE_SCHEMA", "public"), // Not required
-      ssl: {
-        rejectUnauthorized: env.bool("DATABASE_SSL_SELF", false),
-      },
+      client: isProduction ? "postgres" : "sqlite",
+      connection: isProduction
+        ? {
+            host: env("DATABASE_HOST", "localhost"),
+            port: env.int("DATABASE_PORT", 5432),
+            database: env("DATABASE_NAME", "strapi"),
+            user: env("DATABASE_USERNAME", "strapi"),
+            password: env("DATABASE_PASSWORD", "strapi"),
+            ssl: env.bool("DATABASE_SSL", false)
+              ? {
+                  rejectUnauthorized: env.bool("DATABASE_SSL_SELF", false),
+                }
+              : false,
+          }
+        : {
+            filename: env("DATABASE_FILENAME", ".tmp/data.db"),
+          },
+      useNullAsDefault: !isProduction,
+      debug: false,
     },
-    debug: false,
-  },
-});
+  };
+};
